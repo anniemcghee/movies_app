@@ -30,6 +30,7 @@ a {
 	font-family: 'Open Sans Condensed', sans-serif;
 	font-style: none;
 	font-size: 20px;
+	text-decoration: none;
 }
 
 ul {
@@ -38,6 +39,7 @@ ul {
 
 a:hover {
 	color: #16a085;
+	text-decoration: none;
 
 }
 
@@ -46,11 +48,15 @@ p {
     display: block;
 }
 
-.btn-link :hover {
+.btn-link:hover {
 	color: #16a085;
-	font-style: none;
+	text-decoration: none;
 }
 
 .container {
 	text-align: center;
+}
+
+.search {
+	font-size: 15px;
 }

@@ -35,7 +35,7 @@ app.get('/movies/:imdb', function (req, res){
 	var request = require('request');
 	var id = req.params.imdb;
 
-	request("http://omdbapi.com/?i=" + id +"&tomatoes=true&", function (error, response, body){
+	request("http://omdbapi.com/?i=" + id +"&tomatoes=true&"+"&plot=full&", function (error, response, body){
 		if (!error && response.statusCode == 200) {
 		var results2 = JSON.parse(body);
 		res.render('movies/id', results2)
