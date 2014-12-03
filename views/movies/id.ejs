@@ -1,0 +1,22 @@
+<% include ../header %>
+
+
+<p>
+<h2><%= Title %></h2>
+</p>
+
+
+<p>
+  <h4><%= Year %> | <%= Genre %> | Starring <%= Actors %></h4>
+</p>
+
+<br>
+<div class="row">
+  <div class="col-md-4 col-md-offset-2"><h3><%= Plot %></h3><h4><em> (Rotten Tomatoes gives it a <%= tomatoMeter %>%)</em></h4></div>
+  <div class="col-md-4"><img src=<%= Poster %>></div>
+</div>
+
+<br>
+
+
+<% include ../footer %>

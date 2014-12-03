@@ -1,0 +1,11 @@
+<% include ../header %>
+
+<h2>Your Results:</h2>
+
+<ul>
+	<% for (var i = 0; i < Search.length; i++) { %>
+	<li><a href='/movies/<%= Search[i].imdbID %>'><%= Search[i].Title %></a></li>
+	<% } %>
+</ul>
+
+<% include ../footer %>
