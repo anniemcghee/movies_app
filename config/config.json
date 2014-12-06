@@ -1,0 +1,19 @@
+{
+  "development": {
+    "database": "imdb_app",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "database": "imdb_app",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "imdb_app",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}

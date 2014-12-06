@@ -45,6 +45,16 @@ app.get('/movies/:imdb', function (req, res){
 		}
 	})
 })
+ //to star a movie as a favorite, it has to be in the :id page as a submit button and render to 
+ //a link in the header - favorites. 
+ //when you click, imdb code, title, year saves to database and your get a post alert
+ //HIDDEN FORM FIELD IN YOUR EJS PAGE WITH EJS TAGS- change type to hidden and hdden form fields populated with info when you click 
+ //watch list button. You can pass data to your post route through this hidden form
+ //every starred movie gets passed to the favorite database and added to watch link
+ //Also add list of movies into divs like Adrienne's and Claire's
+ //Clean up backgrounds to be more dynamic
+ //
+
 
 app.get('/site/about', function (req, res) {
 	res.render('site/about');
