@@ -9,6 +9,13 @@
 <p>
   <h4><%= Year %> | <%= Genre %> | Starring <%= Actors %></h4>
 </p>
+<p>
+<form action="/movies/watchlist" method="post">
+<input type="hidden" name="imdb_code" value="<%= imdbID %>">
+<input type="hidden" name="title" value="<%= Title %>">
+<input type="hidden" name="year" value="<%= Year %>">
+<input type="submit" value="+ My Watchlist" class="btn btn-default">
+</p>
 
 <br>
 <div class="row">
