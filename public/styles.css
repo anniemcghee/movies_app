@@ -3,6 +3,10 @@ body {
 	border-style: 2px solid black;
 }
 
+.page-header {
+	background-color: #bdc3c7;
+}
+
 h1 {
 	color: #e74c3c;
 	font-family: 'Playfair Display', serif;
@@ -59,4 +63,13 @@ p {
 
 .search {
 	font-size: 15px;
+}
+
+.glyphicon-star {
+	font-size: 30px;
+
+}
+
+.glyphicon-film {
+	font-size: 250px;
 }

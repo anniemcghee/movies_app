@@ -4,23 +4,21 @@
 <h2>Your Watchlist:</h2>
 </p>
 
-<table class='table table-striped'>
+<div class="container">
+<table class='table table-condensed table-striped'>
 	<% for (var i = 0; i < data2.length; i++) { %>
 		<tr>
-			<td>
+<!-- 			<td>
 				<span class="glyphicon glyphicon-star"></span>
-			</td>
+			</td> -->
 			<td>
 				<a href='/movies/<%= data2[i].imdb_code %>'><%= data2[i].title %></a>
-			</td>
-			<td>
 				<h4> (<%= data2[i].year %>) </h4>
-			</td>
-			<td>
-				<button data-id=<%= data2[i].id %> class="btn btn-default btn-sm delete-btn" display="block">X</button>
+				<button data-id=<%= data2[i].id %> class="btn btn-default btn-xs btn-danger delete-btn" display="block"><span class="glyphicon glyphicon-remove"></span></button>
 				<br>
 			</td>
 		</tr>		
 	<% } %>
 </table>
+</div>
 <% include ../footer %>

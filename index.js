@@ -1,28 +1,37 @@
+// ----- Needed to activate the dependency express -----
 var express = require('express');
+
+// ----- Needed to activate the dependency body parser
 var bodyParser = require('body-parser');
+
+// ----- This is required to connect our js page to our database/models. It will default to index.js ----
 var db = require("./models/index.js");
 
+// ----- Needed to use express within our app ----
 var app = express();
 
+// ----- This activates body parser - a tool that parses out JSON data ----
 app.use(bodyParser.urlencoded())
 
+// ----- This is required for express ----
 app.set("view engine",'ejs');
 
+// ----- This is needed to connect my public folder to the whole deal -----
 app.use(express.static(__dirname + '/public'));
 
-
+// ----- This is the home page that does nothing ----
 app.get('/movies/home', function (req,res) {
 	res.render('movies/home');
 })
 
-//add comments about what chunk is doing what
-
+// ----- When watchlist loads, it loads everything from the database -----
 app.get('/movies/watchlist', function( req, res) {
 	db.Watch.findAll().done(function(err, data2){
 		res.render('movies/watchlist',{data2: data2});
 	})
 })
 
+//----- Uses input on home.ejs to render results from the omdb API ----
 app.get('/movies/search/', function (req, res) {
 	var searchTerm = req.query.movies;
 	var request = require('request');
@@ -38,7 +47,7 @@ app.get('/movies/search/', function (req, res) {
 	})
 })
 
-
+// ----- Requests individual movies for id.ejs page and shows tomato/plot info -----
 app.get('/movies/:imdb', function (req, res){
 	var request = require('request');
 	var id = req.params.imdb;
@@ -54,79 +63,24 @@ app.get('/movies/:imdb', function (req, res){
 	})
 })
 
-// app.post('/movies/watchlist', function (req,res) {
-// 	db.Watch.findOrCreate({ where: {imdb_code: req.body.imdb_code, title: req.body.title, year: req.body.year }}).done(function(err,data,notCreated){
-// 			db.Watch.findAll().done(function(err, data2){
-// 				res.render('movies/watchlist',{data2: data2});
-// 		})
-// 	})
-// })
-
-// ------------ this is my old delete button that didn't work! ----------- 
-// app.post('/movies/watchlist', function ( req,res ){
-// 	db.Watch.find({ where: { imdb_code: req.body.imdb_code  } }).spread(function(row,notCreated){
-//   		row.destroy().success(function() {
-// 		res.redirect('movies/watchlist');
-//   		})
-// 	})
-// })
-
-// ----- THIS ONE IS FOR ADD BUTTON ------
+// ----- Adds to the watchlist; connected to button on id.ejs & addItem in script.js  ------
 app.post('/movies/watchlist', function (req, res) {
 	db.Watch.findOrCreate({ where: {imdb_code: req.body.imdb_code, title: req.body.title, year: req.body.year }}).spread(function(data,created){
 		res.send({data:data,wasCreated:created});
 	})
 })
-//res.send({wasCreated:created,item:data}) in app.post after findOrCreate/spread(data,created)
 
-
-// ------------ this is my new delete button I'm trying with Ajax ----------- 
+// ----- Deletes from the watchlist; connected to buttons on watchlist.ejs & deleteItem in script.js -----
 app.delete('/movies/watchlist/:id', function(req,res){
 	db.Watch.destroy({where: {id:req.params.id}}).then(function(data){
 		res.send({deleted:data});
 	})
 })
-//then add a button, give it a unique class, add an alert, check it
-//add id in the button using data-id="<data.id>"? 
-//ajax call - url with data('id'), type: 'DELETE', success:function(result);
-//thisDeleteButton.closest('tr').fadeOut
 
-
-//could technically just use req.body in findOrCreate
-
-//anything AFTER movies/:imdb that starts with /movies will get really confused - because it will try to look for the :imdb first.
-//put any wildcards that change req.params towards or at the bottom
-
-
-
+// ----- This is the about page that does nothing ----
 app.get('/site/about', function (req, res) {
 	res.render('site/about');
 })
 
-
+// ----- Needed to talk to the port - will update when deploying to Heroku -----
 app.listen(3000);
-
-
-
-// app.post('/movies/watchlist', function (req,res) {
-// 	db.Watch.findOrCreate({ where: {imdb_code: req.body.imdb_code, title: req.body.title, year: req.body.year }}).done(function(err,data,notCreated){
-// 		if(notCreated) {
-// 			db.Watch.findAll().done(function(err, data2){
-// 				res.render('movies/watchlist',{data2: data2});
-// 		})
-// 		}
-// 		else {
-// 			db.Watch.findAll().done(function(err, data2){
-// 				res.render('movies/watchlist',{data2: data2});
-// 			})
-// 		}
-// 	})
-// })
-
-// app.post('/movies/watchlist', function (req,res) {
-// 	db.Watch.create({ imdb_code: req.body.imdb_code, title: req.body.title, year: req.body.year }).done(function(err,data){
-// 		db.Watch.findAll().done(function(err, data2){
-// 			res.render('movies/watchlist',{data2: data2});
-// 		})
-// 	})
-// })

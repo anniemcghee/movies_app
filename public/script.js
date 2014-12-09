@@ -3,14 +3,10 @@ $(function(){
 	deleteItem();
 	addItem();
 
-});
+	var collapsible = $( ".selector" ).tabs( "option", "collapsible" );
+	$( ".selector" ).tabs( "option", "collapsible", true );
 
-// var addSuccess = function(){
-// 	var addButton =  $('#add');
-// 	addButton.on('click', function(event){
-// 		alert('Added!');
-// 	})
-// }
+});
 
 var deleteItem = function(){
 	$('.delete-btn').on('click', function(event){
