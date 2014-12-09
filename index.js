@@ -15,6 +15,7 @@ app.get('/movies/home', function (req,res) {
 	res.render('movies/home');
 })
 
+//add comments about what chunk is doing what
 
 app.get('/movies/watchlist', function( req, res) {
 	db.Watch.findAll().done(function(err, data2){
@@ -45,7 +46,7 @@ app.get('/movies/:imdb', function (req, res){
 	request("http://omdbapi.com/?i=" + id +"&tomatoes=true&"+"&plot=full&", function (error, response, body){
 		if (!error && response.statusCode == 200) {
 			var results2 = JSON.parse(body);
-			res.render('movies/id', results2);
+			res.render('movies/id', results2 || []);
 		}
 		else {
 			res.render ('/movies/error');
@@ -53,21 +54,50 @@ app.get('/movies/:imdb', function (req, res){
 	})
 })
 
-app.post('/movies/watchlist', function (req,res) {
-	db.Watch.findOrCreate({ where: {imdb_code: req.body.imdb_code, title: req.body.title, year: req.body.year }}).done(function(err,data,notCreated){
-			db.Watch.findAll().done(function(err, data2){
-				res.render('movies/watchlist',{data2: data2});
-		})
-	})
-})
+// app.post('/movies/watchlist', function (req,res) {
+// 	db.Watch.findOrCreate({ where: {imdb_code: req.body.imdb_code, title: req.body.title, year: req.body.year }}).done(function(err,data,notCreated){
+// 			db.Watch.findAll().done(function(err, data2){
+// 				res.render('movies/watchlist',{data2: data2});
+// 		})
+// 	})
+// })
 
-app.post('/movies/watchlist', function ( req,res ){
-	db.Watch.find({ where: { imdb_code: req.body.imdb_code  } }).then(function(row){
-  		row.destroy().success(function() {
-		res.redirect('movies/watchlist');
-  		})
+// ------------ this is my old delete button that didn't work! ----------- 
+// app.post('/movies/watchlist', function ( req,res ){
+// 	db.Watch.find({ where: { imdb_code: req.body.imdb_code  } }).spread(function(row,notCreated){
+//   		row.destroy().success(function() {
+// 		res.redirect('movies/watchlist');
+//   		})
+// 	})
+// })
+
+// ----- THIS ONE IS FOR ADD BUTTON ------
+app.post('/movies/watchlist', function (req, res) {
+	db.Watch.findOrCreate({ where: {imdb_code: req.body.imdb_code, title: req.body.title, year: req.body.year }}).spread(function(data,created){
+		res.send({data:data,wasCreated:created});
 	})
 })
+//res.send({wasCreated:created,item:data}) in app.post after findOrCreate/spread(data,created)
+
+
+// ------------ this is my new delete button I'm trying with Ajax ----------- 
+app.delete('/movies/watchlist/:id', function(req,res){
+	db.Watch.destroy({where: {id:req.params.id}}).then(function(data){
+		res.send({deleted:data});
+	})
+})
+//then add a button, give it a unique class, add an alert, check it
+//add id in the button using data-id="<data.id>"? 
+//ajax call - url with data('id'), type: 'DELETE', success:function(result);
+//thisDeleteButton.closest('tr').fadeOut
+
+
+//could technically just use req.body in findOrCreate
+
+//anything AFTER movies/:imdb that starts with /movies will get really confused - because it will try to look for the :imdb first.
+//put any wildcards that change req.params towards or at the bottom
+
+
 
 app.get('/site/about', function (req, res) {
 	res.render('site/about');

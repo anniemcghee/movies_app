@@ -1,11 +1,19 @@
 <% include ../header %>
 
 <h2>Your Results:</h2>
+<hr>
 
-<ul>
 	<% for (var i = 0; i < Search.length; i++) { %>
-	<li><a href='/movies/<%= Search[i].imdbID %>'><%= Search[i].Title %></a></li>
+	<tr>
+		<td>
+			<a href='/movies/<%= Search[i].imdbID %>'><%= Search[i].Title %></a><h4> (<%= Search[i].Year %>)</h4>
+			<hr>
+		</td>
 	<% } %>
-</ul>
+	</tr>
+	<% if (Search === undefined) { %>
+	<h2>No results found</h2>
+	<% } %>
+
 
 <% include ../footer %>
