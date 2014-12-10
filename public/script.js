@@ -2,9 +2,7 @@ $(function(){
 	
 	deleteItem();
 	addItem();
-
-	var collapsible = $( ".selector" ).tabs( "option", "collapsible" );
-	$( ".selector" ).tabs( "option", "collapsible", true );
+	addComment();
 
 });
 
@@ -40,6 +38,21 @@ var addItem = function(){
 		})
 	})
 }
+
+var addComment = function(){
+	$('.add-comment').click(function (event){
+		console.log('Button was clicked to add comment')
+
+	})
+}
+// 		var commentButton = $(this);
+// 	$.post(':imdb',{
+// 		title:commentButton.data('comment')
+// 	}, function (data){
+// 		console.log(data)
+// 	})
+// 	})
+// }
 
 
 

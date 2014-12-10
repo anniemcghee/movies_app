@@ -1,0 +1,17 @@
+<% include ../header %>
+
+<h2>Add your comment!</h2>
+<form action='/movies/watchlist/<%= commentId %>/comments' method='post'>
+<input type='text-area' name='content' placeholder='Add your comment'>
+<input type="submit" value="Add Comment">
+</form>
+
+
+<% for (var i = 0; i < info.length; i++) { %>
+<div class="comment list">
+<h3>Other Comments:</h3><h4><%= info[i].content %></h4>
+</div>
+<% } %>
+
+
+<% include ../footer %>

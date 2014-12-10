@@ -26,7 +26,7 @@ app.get('/movies/home', function (req,res) {
 
 // ----- When watchlist loads, it loads everything from the database -----
 app.get('/movies/watchlist', function( req, res) {
-	db.Watch.findAll().done(function(err, data2){
+	db.watch.findAll().done(function(err, data2){
 		res.render('movies/watchlist',{data2: data2});
 	})
 })
@@ -47,6 +47,24 @@ app.get('/movies/search/', function (req, res) {
 	})
 })
 
+// ---- Create comments page, Lists all comments for a specific film in watchlist ----
+// ---- Has form to add comment - takes a URL parameter from watchlist item id ----
+app.get('/movies/watchlist/:id/comments', function(req,res) {
+	var commentId = req.params.id;
+	db.final.findAll({where: {watchId:commentId}}).then(function(info){
+		res.render('movies/comments', {commentId:commentId, info:info});
+	})
+})
+
+// ---- Posts from the add comment button ------
+app.post('/movies/watchlist/:id/comments', function (req,res){
+	db.watch.find({where: {id: req.params.id}}).then(function(thisData){
+		thisData.createFinal({content:req.body.content }).then(function(newData){
+			res.redirect('comments');
+		})
+	})
+})
+
 // ----- Requests individual movies for id.ejs page and shows tomato/plot info -----
 app.get('/movies/:imdb', function (req, res){
 	var request = require('request');
@@ -56,10 +74,10 @@ app.get('/movies/:imdb', function (req, res){
 		if (!error && response.statusCode == 200) {
 			var results2 = JSON.parse(body);
 			//this next piece of code relates to finding if the item already exists in the watchlist
-			db.Watch.count({where:{imdb_code:results2.imdbID}}).then(function(foundItemCount){
+			db.watch.count({where:{imdb_code:results2.imdbID}}).then(function(foundItemCount){
 			//the variable converts it to a boolean for my ejs page
 				var wasFound = foundItemCount > 0;
-				res.render('movies/id',{movieFound:wasFound,results2:results2});
+				res.render('movies/ids',{movieFound:wasFound,results2:results2});
 			})
 			//I need to pass in my variable to my results as a value of a key
 			
@@ -72,14 +90,15 @@ app.get('/movies/:imdb', function (req, res){
 
 // ----- Adds to the watchlist; connected to button on id.ejs & addItem in script.js  ------
 app.post('/movies/watchlist', function (req, res) {
-	db.Watch.findOrCreate({ where: {imdb_code: req.body.imdb_code, title: req.body.title, year: req.body.year }}).spread(function(data,created){
+	db.watch.findOrCreate({ where: {imdb_code: req.body.imdb_code, title: req.body.title, year: req.body.year }}).spread(function(data,created){
 		res.send({data:data,wasCreated:created});
 	})
 })
 
+
 // ----- Deletes from the watchlist; connected to buttons on watchlist.ejs & deleteItem in script.js -----
 app.delete('/movies/watchlist/:id', function(req,res){
-	db.Watch.destroy({where: {id:req.params.id}}).then(function(data){
+	db.watch.destroy({where: {id:req.params.id}}).then(function(data){
 		res.send({deleted:data});
 	})
 })
