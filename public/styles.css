@@ -103,3 +103,15 @@ p {
 	color: #ecf0f1;
 	border: 0 none;
 }
+
+.disabled {
+	background-color: #16a085;
+	border-radius: 50%;
+	padding-right: 8px;
+	padding-left: 8px;
+	padding-top: 2px;
+	padding-bottom: 4px;
+	font-size: 15px;
+	color: #ecf0f1;
+	border: 0 none;
+}

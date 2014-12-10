@@ -55,7 +55,14 @@ app.get('/movies/:imdb', function (req, res){
 	request("http://omdbapi.com/?i=" + id +"&tomatoes=true&"+"&plot=full&", function (error, response, body){
 		if (!error && response.statusCode == 200) {
 			var results2 = JSON.parse(body);
-			res.render('movies/id', results2 || []);
+			//this next piece of code relates to finding if the item already exists in the watchlist
+			db.Watch.count({where:{imdb_code:results2.imdbID}}).then(function(foundItemCount){
+			//the variable converts it to a boolean for my ejs page
+				var wasFound = foundItemCount > 0;
+				res.render('movies/id',{movieFound:wasFound,results2:results2});
+			})
+			//I need to pass in my variable to my results as a value of a key
+			
 		}
 		else {
 			res.render ('/movies/error');

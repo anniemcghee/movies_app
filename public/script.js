@@ -34,7 +34,7 @@ var addItem = function(){
 			imdb_code:addButton.data('imdb')
 		}, function(data){
 
-			alert('Added!')
+			addButton.html('In list').prop('disabled','true').removeClass('btn-default');
 
 			console.log(data)
 		})
