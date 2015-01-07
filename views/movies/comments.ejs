@@ -1,15 +1,21 @@
 <% include ../header %>
 
-<h2>Add your comment!</h2>
+<div class="comment intro">
+<h2>Add your comment about <%= movieData.title %>!</h2>
+</div>
+
+
 <form action='/movies/watchlist/<%= commentId %>/comments' method='post'>
 <input type='text-area' name='content' placeholder='Add your comment'>
 <input type="submit" value="Add Comment">
 </form>
 
-
 <% for (var i = 0; i < info.length; i++) { %>
 <div class="comment list">
-<h3>Other Comments:</h3><h4><%= info[i].content %></h4>
+<h3>Comments:</h3>
+<ul>
+	<li><h4><%= info[i].content %></h4></li>
+</ul>
 </div>
 <% } %>
 

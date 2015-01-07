@@ -10,6 +10,9 @@ module.exports = function(sequelize, DataTypes) {
         models.final.belongsTo(models.watch);
       }
     }
+    hooks: {
+      
+    }
   });
 
   return final;

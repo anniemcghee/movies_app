@@ -4,6 +4,9 @@ var express = require('express');
 // ----- Needed to activate the dependency body parser
 var bodyParser = require('body-parser');
 
+//---- This connects to our bcrypt encrypting software ----
+var bcrypt = require('bcrypt');
+
 // ----- This is required to connect our js page to our database/models. It will default to index.js ----
 var db = require("./models/index.js");
 
@@ -51,8 +54,11 @@ app.get('/movies/search/', function (req, res) {
 // ---- Has form to add comment - takes a URL parameter from watchlist item id ----
 app.get('/movies/watchlist/:id/comments', function(req,res) {
 	var commentId = req.params.id;
-	db.final.findAll({where: {watchId:commentId}}).then(function(info){
-		res.render('movies/comments', {commentId:commentId, info:info});
+	
+	db.watch.find({where: {id: commentId}}).then(function(movieData){
+		db.final.findAll({where: {watchId:commentId}}).then(function(info){
+			res.render('movies/comments', {movieData:movieData, commentId:commentId, info:info});
+		})
 	})
 })
 
